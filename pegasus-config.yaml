@@ -1,0 +1,22 @@
+default_context:
+  _pegasus_version: '2022.3'
+  author_name: Rquin
+  ci: github_actions
+  css_framework: bootstrap
+  css_theme: default
+  database: postgres
+  deploy_platform: heroku_docker
+  description: Automate Sales Tasks
+  domain_name: solarsales.com
+  email: rquin@billmoretech.com
+  enable_google_login: y
+  front_end_framework: react
+  project_name: BMT Sales Automation SaaS
+  project_slug: bmt_sales_automation
+  stripe_payment_mode: both
+  subscription_billing_model: default
+  use_api_keys: y
+  use_docker: y
+  use_impersonation: n
+  use_subscriptions: y
+  use_teams: n
