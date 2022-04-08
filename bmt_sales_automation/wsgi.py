@@ -1,5 +1,5 @@
 """
-WSGI config for BMT Sales Automation SaaS project.
+WSGI config for Automated Follow-ups for Landscaping Businesses project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

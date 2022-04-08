@@ -1,4 +1,4 @@
-# BMT Sales Automation SaaS
+# Automated Follow-ups for Landscaping Businesses
 
 Automate Sales Tasks
 

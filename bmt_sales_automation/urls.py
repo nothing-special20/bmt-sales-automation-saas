@@ -1,4 +1,4 @@
-"""BMT Sales Automation SaaS URL Configuration
+"""Automated Follow-ups for Landscaping Businesses URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -36,4 +36,5 @@ urlpatterns = [
     path('schemajs/', schemajs_view, name='api_schemajs'),
     # djstripe urls - for webhooks
     path("stripe/", include("djstripe.urls", namespace="djstripe")),
+    path('follow_up/', include('apps.follow_up.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
