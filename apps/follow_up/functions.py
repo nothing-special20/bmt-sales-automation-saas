@@ -34,7 +34,7 @@ def twilio_sms(to_num, msg):
     print(message.sid)
 
 
-def mock_data(category):
+def mock_data(category='', setIndex=None):
     data = [
         {
             'firstName': 'Kevin',
@@ -170,6 +170,13 @@ def mock_data(category):
             'category': 'Scheduled Calls'
         },
         {
+            "firstName": "Margaret",
+            "lastName": "Thatcher",
+            'phone': '813-434-0720',
+            'email': 'xerxes@mailinator.com',
+            'category': 'Scheduled Calls'
+        },
+        {
             "firstName": "Alexander",
             "lastName": "the Great",
             'phone': '813-434-0720',
@@ -254,6 +261,16 @@ def mock_data(category):
             'category': 'Closed Deals'
         }
         ]
-    return [x for x in data if category==x['category']]
+    index = 0
+    for x in data:
+        x['index'] = index
+        index += 1
+
+    if category!='':
+        data = [x for x in data if category==x['category']]
+
+    if setIndex is not None:
+        data = [x for x in data if setIndex==x['index']]
+    return data
 
 

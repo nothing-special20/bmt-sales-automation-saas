@@ -4,10 +4,20 @@ import django
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .functions import mock_data
-
+from .functions import mock_data, twilio_sms
 
 # Create your views here.
+
+def send_message(request):
+    print(request.POST)
+    index = int(request.POST.get('index'))
+    print(index)
+    data = mock_data('', index)[0]
+    first_name = data['firstName']
+    phone = data['phone']
+    msg = first_name + ' ' + request.POST.get('msg')
+    twilio_sms(phone, msg)
+    return follow_up(request)
 
 def follow_up(request):
     cold_leads = mock_data('Cold Leads')

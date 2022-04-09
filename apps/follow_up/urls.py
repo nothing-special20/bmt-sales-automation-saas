@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     path('', views.follow_up),
+    path('send_message', views.send_message, name="send_message")
 ]
