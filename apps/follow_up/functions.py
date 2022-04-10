@@ -261,13 +261,14 @@ def mock_data(category='', setIndex=None):
             'category': 'Closed Deals'
         }
         ]
+
+    if category!='':
+        data = [x for x in data if category==x['category']]
+
     index = 0
     for x in data:
         x['index'] = index
         index += 1
-
-    if category!='':
-        data = [x for x in data if category==x['category']]
 
     if setIndex is not None:
         data = [x for x in data if setIndex==x['index']]
