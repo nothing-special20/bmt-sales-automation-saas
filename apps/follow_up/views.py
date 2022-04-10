@@ -14,7 +14,20 @@ scheduled_calls = mock_data('Scheduled Calls')
 scheduled_appointments = mock_data('Scheduled Appointments')
 closed_deals = mock_data('Closed Deals')
 
+categories = list(set([x['category'] for x in mock_data()]))
+category_data = []
+
+for x in categories:
+    data = mock_data(x)
+    output = {
+                'name': x, 
+                'data': data,
+                'count': len(data)
+                }
+    category_data.append(output)
+
 misc_values = {
+        'categories': category_data,
         'cold_leads_count': len(cold_leads),
         'cold_leads': cold_leads,
         'requested_quotes_count': len(requested_quotes),

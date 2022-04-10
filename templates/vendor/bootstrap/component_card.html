@@ -149,149 +149,41 @@
 
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Cold Leads - {{ cold_leads_count }}
-                                            </div>
-                                            <div class="leads-card">
-                                                <ul>
-                                                    {% for contact in cold_leads %}
-                                                        <li id="coldLead" class="card">
-                                                            <div style="text-align: right;">
-                                                                {{ contact.firstName }} {{ contact.lastName }}
-                                                                <button type="submit" name="index" value="{{ contact.index }}" class="btn btn-primary" style="display: inline-block;">Message</button>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Earnings (Annual) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Requested Quotes - {{ requested_quotes_count }}
+                        {% for category in categories %}
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    {{ category.name }} - {{ category.count }}
+                                                </div>
+                                                <div class="leads-card">
+                                                    <ul>
+                                                        {% for contact in category.data %}
+                                                            <li id="requestedQuotes" class="card">
+                                                                <div style="text-align: right;">
+                                                                    {{ contact.firstName }} {{ contact.lastName }}
+                                                                    <form action="send_message" method="post" style="display: inline-block;">
+                                                                        {% csrf_token %}
+                                                                        <button type="submit" onclick="location.href='{% url 'send_message' %}'" name="index" value="{{ contact.category }}~{{ contact.index }}" class="btn btn-primary">Message</button>
+                                                                    </form>
+                                                                </div>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
                                             </div>
-                                            <div class="leads-card">
-                                                <ul>
-                                                    {% for contact in requested_quotes %}
-                                                        <li id="requestedQuotes" class="card">
-                                                            <div style="text-align: right;">
-                                                                {{ contact.firstName }} {{ contact.lastName }}
-                                                                <form action="send_message" method="post">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" onclick="location.href='{% url 'send_message' %}'" name="index" value="{{ contact.category }}~{{ contact.index }}" class="btn btn-primary" style="display: inline-block;">Message</button>
-                                                                </form>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tasks Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Scheduled Calls - {{ scheduled_calls_count }}
-                                            </div>
-                                            <div class="leads-card">
-                                                <ul>
-                                                    {% for contact in scheduled_calls %}
-                                                        <li id="scheduledCalls" class="card">
-                                                            <div style="text-align: right;">
-                                                                {{ contact.firstName }} {{ contact.lastName }}
-                                                                <button type="submit" name="index" value="{{ contact.index }}" class="btn btn-primary" style="display: inline-block;">Message</button>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Scheduled Calls - {{ scheduled_appointments_count }}
-                                            </div>
-                                            <div class="leads-card">
-                                                <ul>
-                                                    {% for contact in scheduled_appointments %}
-                                                        <li id="coldLead" class="card">
-                                                            <div style="text-align: right;">
-                                                                {{ contact.firstName }} {{ contact.lastName }}
-                                                                <button type="submit" name="index" value="{{ contact.index }}" class="btn btn-primary" style="display: inline-block;">Message</button>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                Closed Deals - {{ closed_deals_count }}
-                                            </div>
-                                            <div class="leads-card">
-                                                <ul>
-                                                    {% for contact in closed_deals %}
-                                                        <li id="closedDeals" class="card">
-                                                            <div style="text-align: right;">
-                                                                {{ contact.firstName }} {{ contact.lastName }}
-                                                                <button type="submit" name="index" value="{{ contact.index }}" class="btn btn-primary" style="display: inline-block;">Message</button>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
 
 
