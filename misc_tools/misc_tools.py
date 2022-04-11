@@ -3,6 +3,7 @@ import re
 import shutil
 import os
 
+# copy all of the file dependencies for a file from one folder to another
 def copy_dependencies(file, src_folder, dest_folder):
     data = open(file, 'r').read()
     file_paths = re.findall('".{1,255}?"', data)
@@ -36,8 +37,49 @@ def copy_dependencies(file, src_folder, dest_folder):
         shutil.copyfile(src, dst)
         print(x)
 
+# swaps out things like href="lol.png" for href="{ % static 'lol.png' %}"
+def django_static_file_ref_update(file):
+    data = open(file, 'r').read()
+    file_paths = re.findall('".{1,255}?"', data)
+    file_paths = [re.sub('"', '', x) for x in file_paths]
+    keep_file_exts = ['.css', '.js', '.svg', '.png']
+    keep_file_exts = ['\\' + x for x in keep_file_exts]
+    keep_file_exts = '|'.join(keep_file_exts)
+
+    file_exts = []
+    for x in file_paths:
+        try:
+            file_exts.append(re.search('\\..{1,5}',x).group(0))
+        except:
+            pass
+
+    file_exts = list(set(file_exts))
+
+    file_paths = [x for x in file_paths if bool(re.findall(keep_file_exts, x))]
+    file_paths = [x for x in file_paths if x[0]!='.']
+    file_paths = list(set(file_paths))
+
+    for x in file_paths:
+        print('~~~~~~')
+        print(x)
+        new_path = "{% static '" + x + "' %}"
+        data = re.sub(x, new_path, data)
+        print(new_path)
+    
+    new_file = file.split('.')
+    new_file = new_file[0] + '_2.' + new_file[1]
+
+    f = open(new_file, "w")
+    f.write(data)
+    f.close()
+
+    "vendor/jquery/jquery.min.js"
+    "{% static 'vendor/jquery/jquery.min.js' %}"
+
+
 if __name__ == '__main__':
-    file = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/templates/web/components/bulkit_body.html'
+    file = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/templates/web/components/bulkit_body_old.html'
     src_folder = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/tools/themeforest-Y3pCVj8L-bulkit-agency-startup-and-saas-template/precompiled/assets/'
     dest_folder = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/static/vendor/bulkit'
-    copy_dependencies(file, src_folder, dest_folder)
+    # copy_dependencies(file, src_folder, dest_folder)
+    django_static_file_ref_update(file)
