@@ -43,23 +43,35 @@ misc_values = {
     }
 
 def send_message(request):
-    print(request.POST)
-    index = request.POST.get('index').split('~')
-    category = index[0]
-    index_num = int(index[1])
-    print(index)
-    data = mock_data(category, index_num)[0]
-    first_name = data['firstName']
-    phone = data['phone']
-    msg = first_name + ' ' + misc_values['msgBody']
-    twilio_sms(phone, msg)
-    return follow_up(request)
+    if request.user.is_authenticated:
+        print(request.POST)
+        index = request.POST.get('index').split('~')
+        category = index[0]
+        index_num = int(index[1])
+        print(index)
+        data = mock_data(category, index_num)[0]
+        first_name = data['firstName']
+        phone = data['phone']
+        msg = first_name + ' ' + misc_values['msgBody']
+        twilio_sms(phone, msg)
+        return follow_up(request)
+    
+    else:
+        return render(request, 'web/landing_page.html')
 
 def set_message(request):
-    misc_values['msgBody'] = request.POST.get('msgBody')
-    misc_values['msgSubject'] = request.POST.get('msgSubject')
-    return follow_up(request)
+    if request.user.is_authenticated:
+        misc_values['msgBody'] = request.POST.get('msgBody')
+        misc_values['msgSubject'] = request.POST.get('msgSubject')
+        return follow_up(request)
+
+    else:
+        return render(request, 'web/landing_page.html')
 
 def follow_up(request):
-    return render(request, 'follow_up/landing_page.html', misc_values)
+    if request.user.is_authenticated:
+        return render(request, 'follow_up/landing_page.html', misc_values)
+
+    else:
+        return render(request, 'web/landing_page.html')
 

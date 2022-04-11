@@ -29,8 +29,8 @@ ALLOWED_HOSTS = [
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 
 ANYMAIL = {
-    "MAILGUN_API_KEY": "key-****",
-    "MAILGUN_SENDER_DOMAIN": 'solarsales.com',
+    "MAILGUN_API_KEY": os.environ.get("MAILGUN_KEY", "<your publishable key>"),
+    "MAILGUN_SENDER_DOMAIN": '',
 }
 
 SERVER_EMAIL = 'noreply@solarsales.com'
