@@ -1,0 +1,16 @@
+{% extends "web/base.html" %}
+{% load static %}
+{% block body %}
+{% include "vendor/bootstrap/surveys_body.html" %}
+{% endblock %}
+{% block extra_js %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+{% endblock %}

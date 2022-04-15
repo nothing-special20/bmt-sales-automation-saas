@@ -37,4 +37,5 @@ urlpatterns = [
     # djstripe urls - for webhooks
     path("stripe/", include("djstripe.urls", namespace="djstripe")),
     path('follow_up/', include('apps.follow_up.urls')),
+    path('surveys/', include('apps.surveys.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
