@@ -11,7 +11,7 @@ default_context:
   email: rquin@billmoretech.com
   enable_google_login: y
   front_end_framework: react
-  project_name: Automated Follow-ups for Landscaping Businesses
+  project_name: Automated Follow-ups for HVAC Businesses
   project_slug: bmt_sales_automation
   stripe_payment_mode: both
   subscription_billing_model: default
