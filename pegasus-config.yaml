@@ -7,7 +7,7 @@ default_context:
   database: postgres
   deploy_platform: heroku_docker
   description: Automate Sales Tasks
-  domain_name: solarsales.com
+  domain_name: dataconnekt.com
   email: rquin@billmoretech.com
   enable_google_login: y
   front_end_framework: react

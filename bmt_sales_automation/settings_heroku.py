@@ -38,5 +38,5 @@ USE_HTTPS_IN_ABSOLUTE_URLS = True
 
 DEBUG = True
 ALLOWED_HOSTS = [
-    'solarsales.com'
+    'dataconnekt.com'
 ]
