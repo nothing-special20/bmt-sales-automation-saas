@@ -36,7 +36,7 @@ CSRF_COOKIE_SECURE = True
 
 USE_HTTPS_IN_ABSOLUTE_URLS = True
 
-DEBUG = True
+debug = False
 ALLOWED_HOSTS = [
     'dataconnekt.com'
 ]
