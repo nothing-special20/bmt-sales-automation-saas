@@ -17,24 +17,39 @@ def mock_data(setIndex=None):
     data = [
         {
             'question': 'What is your favorite color?',
-            'answer_1': 'Red',
-            'answer_2': 'Orange',
-            'answer_3': 'Black',
-            'answer_4': 'Green'
+            'answers': [
+                'Red', 
+                'Orange', 
+                'Black',
+                'Green'
+            ]
         },
         {
             'question': 'What is your favorite number?',
-            'answer_1': '7',
-            'answer_2': '13',
-            'answer_3': '3',
-            'answer_4': '9'
+            'answers': [
+                '7',
+                '13',
+                '3',
+                '9'
+            ]
         },
         {
             'question': 'What is your favorite country?',
-            'answer_1': 'USA',
-            'answer_2': 'Czech Republic',
-            'answer_3': 'Porto',
-            'answer_4': 'Budapest'
+            'answers': [
+                'USA',
+                'Czech Republic',
+                'Porto',
+                'Budapest'
+            ]
+        },
+        {
+            'question': 'What is the best state?',
+            'answers': [
+                'Florida',
+                'Florida',
+                'Florida',
+                'Florida'
+            ]
         }
         ]
 

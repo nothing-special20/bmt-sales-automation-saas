@@ -4,6 +4,7 @@
     
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,7 +14,7 @@
     <title>SB Admin 2 - Cards</title>
 
     <!-- My Custom CSS styling -->
-    {% comment %} <link href="css/custom/custom.css" rel="stylesheet" type="text/css"> {% endcomment %}
+    {% comment %} <link href="vendor/bootstrap/css/custom/custom.css" rel="stylesheet" type="text/css"> {% endcomment %}
     <style>
         .leads-card {
             overflow: scroll; 
@@ -45,7 +46,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Message Template</div>
+                <div class="sidebar-brand-text mx-3">Survey Template</div>
             </a>
 
             <!-- Divider -->
@@ -63,24 +64,18 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
                     aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Send Message</span>
                 </a>
                 <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar" style="height:40vh;">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Message Subject</h6>
-                        <form action="set_message" method="post" style="text-align: center; height: 60vh;"> 
+                        <form action="set_message" method="post" style="text-align: center; height: 5vh;"> 
                             {% csrf_token %}
-                            <textarea name="msgSubject" style="height: 15%;" value={{ msgSubject }}>{{ msgSubject }}</textarea>
-                            <h6 class="collapse-header">Message Body</h6>
-                            <textarea name="msgBody" style="height: 75%;" value="{{ msgBody }}">{{ msgBody }}</textarea>
                             <button 
                                 type="submit" 
                                 name="index" 
                                 value="{{ contact.index }}" 
                                 class="btn btn-primary" 
                                 style="display: inline-block;">
-                                Set Message
+                                Save Survey Values
                             </button>
                         </form>
                     </div>
@@ -139,47 +134,34 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" style="overflow-y: auto; height: 80vh;">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Cards</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Survey Questions</h1>
                     </div>
 
                     <div class="row">
 
 
                         <!-- Earnings (Annual) Card Example -->
-                        {% for category in categories %}
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                    {{ category.name }} - {{ category.count }}
-                                                </div>
-                                                <div class="leads-card">
-                                                    <ul>
-                                                        {% for contact in category.data %}
-                                                            <li id="requestedQuotes" class="card">
-                                                                <div style="text-align: right;">
-                                                                    {{ contact.firstName }} {{ contact.lastName }}
-                                                                    <form action="send_message" method="post" style="display: inline-block;">
-                                                                        {% csrf_token %}
-                                                                        <button type="submit" onclick="location.href='{% url 'send_message' %}'" name="index" value="{{ contact.category }}~{{ contact.index }}" class="btn btn-primary">Message</button>
-                                                                    </form>
-                                                                </div>
-                                                            </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                        {% for survery_record in survey_data %}
+                            <div class="">
+                                <div class="col-xl-10 mb-4">
+                                    <ul>
+                                        <li class="card">
+                                            {{ survery_record.question }}
+                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~Score
+                                            <form action="" method="post" style="display: inline-block;">
+                                                {% csrf_token %}
+                                                {% for answer in survery_record.answers %}
+                                                    <textarea class="col-xl-8 mb-4">{{ answer }}</textarea>
+                                                    <textarea class="col-xl-1 mb-4" placeholder="1,2,3..."></textarea>
+                                                    <br>
+                                                {% endfor %}
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         {% endfor %}
