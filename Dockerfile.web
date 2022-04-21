@@ -20,8 +20,7 @@ RUN npm run build
 
 # why this has to be here:
 # https://stackoverflow.com/questions/59719175/where-to-run-collectstatic-when-deploying-django-app-to-heroku-using-docker
-# RUN python manage.py collectstatic --noinput --settings=bmt_sales_automation.settings_heroku
-RUN python manage.py --noinput --settings=bmt_sales_automation.settings_heroku
+RUN python manage.py collectstatic --noinput --settings=bmt_sales_automation.settings_heroku
 
 # in Heroku this is handled by the run command in heroku.yml
 # CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 bmt_sales_automation.wsgi:application
