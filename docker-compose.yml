@@ -85,3 +85,6 @@ volumes:
   postgres_data:
   redis_data:
   certs:
+  html:
+  vhost:
+  acme:
