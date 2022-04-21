@@ -26,7 +26,10 @@ SECRET_KEY = 'tfAbKDApmmUCmFBMNRbnjzscscVFShXaYLJXpyut'
 # SECURITY WARNING: don't run with debug turned on in production!
 debug = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'prospectvetter.com',
+    '208.87.133.239',
+]
 
 
 # Application definition
@@ -263,7 +266,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # replace any values below with specifics for your project
 PROJECT_METADATA = {
     'NAME': "Data Integration for Digital Marketers",
-    'URL': 'http://dataconnekt.com',
+    'URL': 'http://prospectvetter.com',
     'DESCRIPTION': "Automate Sales Tasks",
     'IMAGE': 'https://upload.wikimedia.org/wikipedia/commons/2/20/PEO-pegasus_black.svg',
     'KEYWORDS': 'SaaS, django',

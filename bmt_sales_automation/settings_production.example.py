@@ -19,7 +19,8 @@ DATABASES = {
 USE_HTTPS_IN_ABSOLUTE_URLS = True  # make Stripe Checkout, email invitations, etc. use HTTPS instead of HTTP
 
 ALLOWED_HOSTS = [
-    'dataconnekt.com',
+    'prospectvetter.com',
+    '208.87.133.239',
 ]
 
 
@@ -33,7 +34,7 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": '',
 }
 
-SERVER_EMAIL = 'noreply@dataconnekt.com'
+SERVER_EMAIL = 'noreply@prospectvetter.com'
 DEFAULT_FROM_EMAIL = 'rquin@billmoretech.com'
 ADMINS = [('Your Name', 'rquin@billmoretech.com'),]
 

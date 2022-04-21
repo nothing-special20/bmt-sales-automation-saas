@@ -40,5 +40,6 @@ DISABLE_COLLECTSTATIC = 1
 
 debug = False
 ALLOWED_HOSTS = [
-    'dataconnekt.com'
+    'prospectvetter.com',
+    '208.87.133.239',
 ]
