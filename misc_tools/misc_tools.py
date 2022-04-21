@@ -143,10 +143,12 @@ def domain_competitors(url):
 
 def dependency_checker(file, static_folder):
     data = open(file, 'r').read()
-    dependency_files = re.findall('".{1,255}?"', data)
-    dependency_files = [re.sub('"', '', x) for x in dependency_files]
+    dependency_files = re.findall('".{1,255}?"|url\\(.{1,255}?\\)', data)
+    dependency_files = [re.sub('"|\\(|\\)|', '', x) for x in dependency_files]
+    dependency_files = [re.sub("'", '', x) for x in dependency_files]
     dependency_files = [os.path.basename(x) for x in dependency_files]
     dependency_files = [x.split('#')[0] for x in dependency_files if '.' in x]
+    dependency_files = [x.split('?')[0] for x in dependency_files if '.' in x]
     
     dependency_files = list(set(dependency_files))
 
