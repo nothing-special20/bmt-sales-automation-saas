@@ -26,6 +26,6 @@ location /mediafiles/ {
 #location / {
   #include proxy_params;
   #proxy_pass http://unix://run/gunicorn.sock;
-  #proxy_pass http://172.93.51.92:5601;
+  #proxy_pass http://208.87.133.239:5601;
 #}
 #limit_req_zone $server_name rate=5r/s burst=75;
