@@ -141,6 +141,30 @@ def domain_competitors(url):
 
     return data
 
+def dependency_checker(file, static_folder):
+    data = open(file, 'r').read()
+    dependency_files = re.findall('".{1,255}?"', data)
+    dependency_files = [re.sub('"', '', x) for x in dependency_files]
+    dependency_files = [os.path.basename(x) for x in dependency_files]
+    dependency_files = [x.split('#')[0] for x in dependency_files if '.' in x]
+    
+    dependency_files = list(set(dependency_files))
+
+    rm_file_exts = ['Microsoft\\.BasicImage', '#iefix']
+    # rm_file_exts = ['\\' + x for x in rm_file_exts]
+    rm_file_exts = '|'.join(rm_file_exts)
+
+    dependency_files = [x for x in dependency_files if not bool(re.findall(rm_file_exts, x))]
+
+    static_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk(static_folder) for f in filenames]
+    static_files = [os.path.basename(x) for x in static_files]
+
+    missing_dependencies = [x for x in dependency_files if x not in static_files]
+
+    for x in missing_dependencies:
+        print(x)
+    print('Files remaining to download:\t' + str(len(missing_dependencies)))
+
 if __name__ == '__main__':
     if sys.argv[1]=='copy_files':
         # file = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/templates/web/components/bulkit_body_old.html'
@@ -173,3 +197,8 @@ if __name__ == '__main__':
 
         final = pd.concat(final)
         final.to_excel(folder + 'landscaping_output.xlsx', 'data', index=None)
+
+    if sys.argv[1] == 'dependency_check':
+        file = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/static/vendor/bulkit/css/app.css'
+        static_folder = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/static/vendor/bulkit'
+        dependency_checker(file, static_folder)
