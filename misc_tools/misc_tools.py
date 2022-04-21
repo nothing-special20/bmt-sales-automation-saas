@@ -197,6 +197,7 @@ if __name__ == '__main__':
 
         final = pd.concat(final)
         final.to_excel(folder + 'landscaping_output.xlsx', 'data', index=None)
+        #
 
     if sys.argv[1] == 'dependency_check':
         file = '/Users/rapple2018/Documents/Professional/Entrepreneur/Bill More Tech/bmt-sales-automation-saas/static/vendor/bulkit/css/app.css'
