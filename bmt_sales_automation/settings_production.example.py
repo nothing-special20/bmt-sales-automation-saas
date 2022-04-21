@@ -19,8 +19,11 @@ DATABASES = {
 USE_HTTPS_IN_ABSOLUTE_URLS = True  # make Stripe Checkout, email invitations, etc. use HTTPS instead of HTTP
 
 ALLOWED_HOSTS = [
+    'localhost',
     'prospectvetter.com',
-    '208.87.133.239',
+    'www.prospectvetter.com',
+    'http://prospectvetter.com',
+    'http://www.prospectvetter.com',
 ]
 
 

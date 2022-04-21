@@ -40,6 +40,9 @@ DISABLE_COLLECTSTATIC = 1
 
 debug = False
 ALLOWED_HOSTS = [
+    'localhost',
     'prospectvetter.com',
-    '208.87.133.239',
+    'www.prospectvetter.com',
+    'http://prospectvetter.com',
+    'http://www.prospectvetter.com',
 ]
