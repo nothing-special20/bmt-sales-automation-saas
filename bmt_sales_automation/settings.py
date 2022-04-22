@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     'www.prospectvetter.com',
     'http://prospectvetter.com',
     'http://www.prospectvetter.com',
+    '208.87.133.239',
 ]
 
 
