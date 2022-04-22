@@ -46,23 +46,23 @@ services:
     depends_on:
       - db
       - redis
-  # nginx-proxy:
-  #   container_name: nginx-proxy
-  #   # build: nginx
-  #   build:
-  #     context: .
-  #     dockerfile: nginx/Dockerfile
-  #   restart: always
-  #   ports:
-  #     - 443:443
-  #     - 80:80
-  #   volumes:
-  #     - ./static:/home/app/web/staticfiles
-  #     - certs:/etc/nginx/certs
-  #     - html:/usr/share/nginx/html
-  #     - vhost:/etc/nginx/vhost.d
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #     - acme:/etc/acme.sh
+  nginx-proxy:
+    container_name: nginx-proxy
+    # build: nginx
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - ./static:/home/app/web/staticfiles
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - acme:/etc/acme.sh
   #   depends_on:
   #     - web
   # nginx-proxy-letsencrypt:
