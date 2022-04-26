@@ -11,3 +11,4 @@ celery-progress
 celery
 celery[redis]
 twilio
+sqlalchemy
