@@ -13,6 +13,7 @@ class PermitData(models.Model):
     EXPIRATION_DATE = models.DateField(null=True, blank=True)
     DESCRIPTION = models.TextField(null=True, blank=True)
     LOAD_DATE_TIME = models.DateTimeField()
+    LICENSE_TYPE = models.TextField(null=True, blank=True)
 
 class PermitDataOtherDetails(models.Model):
     RECORD_NUMBER = models.TextField(null=True, blank=True)

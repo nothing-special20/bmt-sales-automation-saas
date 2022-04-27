@@ -308,7 +308,7 @@ def scrape_app_info(driver, record):
 #     record.save()
 #     print('it works!')
 
-def get_tbl(driver, index_val):
+def get_tbl(driver, license_type, index_val):
     TBL_XPATH = '//table[@id="ctl00_PlaceHolderMain_dgvPermitList_gdvPermitList"]'
 
     tbl = find_ele(driver, 10, TBL_XPATH).get_attribute('outerHTML')
@@ -334,6 +334,9 @@ def get_tbl(driver, index_val):
     tbl = tbl[new_col_names]
 
     tbl['LOAD_DATE_TIME'] = datetime.datetime.now()
+
+    tbl['LICENSE_TYPE'] = license_type
+
 
     return tbl
 
@@ -429,13 +432,14 @@ if __name__ == '__main__':
         end_date = end_date[1] + '/' + end_date[2] + '/' + end_date[0]
 
         driver = driver_settings_chrome(HVAC_DATA_FOLDER, True)
-        search_prep(driver, '01/01/2021', end_date, 'Air Cond B Contractor')
+        license_type = 'Air Cond B Contractor'
+        search_prep(driver, '01/01/2011', '11/21/2019', license_type)
         
         while True:
             # try:
             WebDriverWait(driver, 30).until(EC.invisibility_of_element_located((By.XPATH, '//*[@id="divLoadingTemplate"]')))
 
-            tbl = get_tbl(driver, index_val)
+            tbl = get_tbl(driver, license_type, index_val)
             tbl.to_sql('data_permitdata', engine, if_exists='append', index=False)
             index_val += 10
 
@@ -458,15 +462,19 @@ if __name__ == '__main__':
             print('Successfully loaded!')
 
     if sys.argv[1]=='scrape_single_record':
-        parallel_procs = 4
+        parallel_procs = 8
         index_val = pd.read_sql('SELECT MAX(id) as index_val FROM public.data_permitdataotherdetails;', engine)
         index_val = index_val['index_val'][0]
-        index_val = index_val + 22
+        index_val = index_val + 1
 
-        record_num_sql = 'SELECT distinct "RECORD_NUMBER" FROM public.data_permitdata where "DATE" > ' + "'12/31/2020';"
+        # record_num_sql = 'SELECT distinct "RECORD_NUMBER" FROM public.data_permitdata where "DATE" < ' + "'01/01/2009';"
+        record_num_sql = 'SELECT distinct public.data_permitdata."RECORD_NUMBER" FROM public.data_permitdata \
+                left join public.data_permitdataotherdetails \
+                on public.data_permitdata."RECORD_NUMBER" = public.data_permitdataotherdetails."RECORD_NUMBER" \
+                where  "CONSTRUCTION_VALUE" is not null;' #\
+                # and "DATE" < ' + "'01/01/2009';"
         record_nums = pd.read_sql(record_num_sql, engine)
         record_nums = list(record_nums['RECORD_NUMBER'])
-        record_nums = record_nums[(index_val + 1):]
         print('# of records to scrape:\t' + str(len(record_nums)))
 
         # for record in record_nums[(index_val + 1):]:
