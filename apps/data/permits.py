@@ -149,10 +149,17 @@ def find_record(driver, record_num):
 def scrape_licensed_professionals(driver, record_num, index_val):
     TBL_ROWS_XPATH = '//table[@id="tbl_licensedps"]/tbody/tr'
     OTHER_PROFESSIONALS_XPATH = '//*[@id="link_licenseProfessional"]'
+    
     try:
-        find_ele(driver, 30, OTHER_PROFESSIONALS_XPATH).click()
+        find_ele(driver, 5, OTHER_PROFESSIONALS_XPATH).click()
+    except:
+        print('No other professionals!')
 
-        tbl_rows = find_ele(driver, 3, TBL_ROWS_XPATH)
+    try:
+        tbl_rows = find_ele(driver, 10, TBL_ROWS_XPATH)
+        if not isinstance(tbl_rows, list):
+            tbl_rows = [tbl_rows]
+
         keep_records = [0]
         if len(tbl_rows) > 3:
             keep_records.extend(list(range(3, len(tbl_rows))))
@@ -169,6 +176,7 @@ def scrape_licensed_professionals(driver, record_num, index_val):
         
         output = pd.concat(output)
     except:
+        print('~~Professionals Scrape Failed!~~')
         output = {
             'RECORD_NUMBER': record_num,
             'PROFESSIONALS': '_'
@@ -182,6 +190,7 @@ def scrape_licensed_professionals(driver, record_num, index_val):
     output['id'] = index_val
     output = output[new_cols]
     output['LOAD_DATE_TIME'] = datetime.datetime.now()
+    print(output)
 
     return output
 
@@ -398,7 +407,13 @@ def sublists_maker(main_list, num_parallel_procs):
 
 def upload_csvs_to_sql(folder, file_flag, engine, tbl):
     files = [folder + x for x in os.listdir(folder) if file_flag in x]
-    data = [pd.read_csv(x, sep='~') for x in files]
+    data = []
+    for x in files:
+        try:
+            data.append(pd.read_csv(x, sep='~'))
+        except:
+            print('Err with file:\t' + x)
+
     data = pd.concat(data)
 
     index_val = pd.read_sql('SELECT MAX(id) as index_val FROM ' + tbl + ';', engine)
@@ -411,6 +426,8 @@ def upload_csvs_to_sql(folder, file_flag, engine, tbl):
     for file in files:
         basename = os.path.basename(file)
         os.rename(folder + basename, folder + 'already_loaded/' + basename)
+    
+    print('# of ' + file_flag + ' files uploaded to SQL:\t' + str(len(files)))
 
 if __name__ == '__main__':
     engine = engine_fn('postgres', 'postgres', 'localhost', '5433', 'bmt_sales_automation')
@@ -430,10 +447,15 @@ if __name__ == '__main__':
         end_date = str(end_date)
         end_date = end_date.split('-')
         end_date = end_date[1] + '/' + end_date[2] + '/' + end_date[0]
+        
+        start_date = '01/01/2022'
+        end_date = '12/31/2022'
+
+        print('Started scraping dates from ' + start_date + ' to ' + end_date)
 
         driver = driver_settings_chrome(HVAC_DATA_FOLDER, True)
-        license_type = 'Air Cond B Contractor'
-        search_prep(driver, '01/01/2011', '11/21/2019', license_type)
+        license_type = 'Air Cond A Contractor'
+        search_prep(driver, start_date, end_date, license_type)
         
         while True:
             # try:
@@ -460,6 +482,8 @@ if __name__ == '__main__':
                 break
 
             print('Successfully loaded!')
+        
+        print('Finished scraping dates from ' + start_date + ' to ' + end_date)
 
     if sys.argv[1]=='scrape_single_record':
         parallel_procs = 8
@@ -471,15 +495,20 @@ if __name__ == '__main__':
         record_num_sql = 'SELECT distinct public.data_permitdata."RECORD_NUMBER" FROM public.data_permitdata \
                 left join public.data_permitdataotherdetails \
                 on public.data_permitdata."RECORD_NUMBER" = public.data_permitdataotherdetails."RECORD_NUMBER" \
-                where  "CONSTRUCTION_VALUE" is not null;' #\
-                # and "DATE" < ' + "'01/01/2009';"
+                left join public.data_permitdataotherprofessionals \
+                on public.data_permitdata."RECORD_NUMBER" = public.data_permitdataotherprofessionals."RECORD_NUMBER" \
+                where "DATE" > ' + "'12/31/2020'" + \
+                'and ("CONSTRUCTION_VALUE" is null or "PROFESSIONALS" is null);'
         record_nums = pd.read_sql(record_num_sql, engine)
         record_nums = list(record_nums['RECORD_NUMBER'])
         print('# of records to scrape:\t' + str(len(record_nums)))
 
+        # record_nums = ['EBP-21-13724']
+
         # for record in record_nums[(index_val + 1):]:
         index_list = range((index_val + 1), (len(record_nums)+index_val+1))
         print('# of indices:\t' + str(len(index_list)))
+        parallel_procs = min([len(record_nums), parallel_procs])
         record_nums = sublists_maker(record_nums, parallel_procs)
         index_list = sublists_maker(index_list, parallel_procs)
         pool = multiprocessing.Pool(processes=parallel_procs)
