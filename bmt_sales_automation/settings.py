@@ -28,10 +28,10 @@ debug = False
 
 ALLOWED_HOSTS = [
     'localhost',
-    'prospectvetter.com',
-    'www.prospectvetter.com',
-    'http://prospectvetter.com',
-    'http://www.prospectvetter.com',
+    'floridahvacleads.com',
+    'www.floridahvacleads.com',
+    'http://floridahvacleads.com',
+    'http://www.floridahvacleads.com',
     '208.87.133.239',
 ]
 
@@ -272,7 +272,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # replace any values below with specifics for your project
 PROJECT_METADATA = {
     'NAME': "Data Integration for Digital Marketers",
-    'URL': 'http://prospectvetter.com',
+    'URL': 'http://floridahvacleads.com',
     'DESCRIPTION': "Automate Sales Tasks",
     'IMAGE': 'https://upload.wikimedia.org/wikipedia/commons/2/20/PEO-pegasus_black.svg',
     'KEYWORDS': 'SaaS, django',
